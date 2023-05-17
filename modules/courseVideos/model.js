@@ -1,4 +1,4 @@
-import { Model, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const VideoSchema = new Schema({
     video_title: {
@@ -22,4 +22,4 @@ const courseVideoSchema = new Schema({
     },
 });
 
-export const CourseVideo = Model("course_video", courseVideoSchema);
+export const CourseVideo = model("course_video", courseVideoSchema);

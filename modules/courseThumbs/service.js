@@ -1,4 +1,4 @@
-import { CourseThumbnail } from "./model";
+import { CourseThumbnail } from "./model.js";
 
 export const createCourseThumbnail = async (query, callback) => {
     let _session=new CourseThumbnail(query)

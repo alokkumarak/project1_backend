@@ -1,4 +1,4 @@
-import { CourseVideo } from "./model";
+import { CourseVideo } from "./model.js";
 
 export const createCourseVideo = async (query, callback) => {
     let _session=new CourseVideo(query)

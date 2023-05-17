@@ -32,6 +32,7 @@ const courseThumbSchema = new Schema({
     course_student_inrolled: {
         type: [String],
         required: false,
+        default:[]
     },
 });
 
