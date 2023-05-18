@@ -33,3 +33,23 @@ export const getCourseThumbnailByTeacherId =  async(query) => {
     return queryCourse
 }
 
+export const getCourseThumbnailSortedPagination = async (
+    query,
+    limit,
+    currentPage
+) => {
+    try {
+        let count = await CourseThumbnail.countDocuments(query);
+        let result = await CourseThumbnail.find(query, {
+            _id: false,
+            __v: false,
+            csv: false,
+        })
+            .limit(limit)
+            .skip((currentPage - 1) * limit);
+        return { result, count };
+    } catch {
+        return { result: [], count: 0 };
+    }
+};
+
