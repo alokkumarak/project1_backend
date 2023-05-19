@@ -1,4 +1,4 @@
-import { EnrolledStudent } from "./model";
+import { EnrolledStudent } from "./model.js";
 
 export const createEnrolledStudent = async (query, callback) => {
     let _session=new EnrolledStudent(query)

@@ -55,3 +55,18 @@ export const teacherSignIn = async (req,res)=>{
         console.log(err)
     }
 }
+
+
+export const getPopularTeacher = async (req,res)=>{
+    const { limit } = req.query;
+    const query = {};
+    const resData = await getTeacherAccount(
+      query,
+      limit,
+    );
+    return res.status(200).json({
+      data: resData.result,
+    });
+  };
+  
+

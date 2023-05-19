@@ -1,5 +1,5 @@
 import { getCourseThumbnailById } from "../../modules/courseThumbs/service.js";
-import { createCourseVideoAwait } from "../../modules/courseVideos/service.js";
+import { createCourseVideoAwait, getCourseVideoByCourseId } from "../../modules/courseVideos/service.js";
 
 export const courseVideoUpload = async (req,res)=>{
     const {course_id, course_videos } = req.body;
@@ -17,3 +17,21 @@ export const courseVideoUpload = async (req,res)=>{
         console.log(err)
     }
 }
+
+export const getOneCourseVideos = async (req,res)=>{
+    const {course_id} = req.query;
+    try{
+       
+        const courseVideos = await getCourseVideoByCourseId({course_id:course_id})
+        if(courseVideos){
+            return res.status(200).json({data:courseVideos.course_videos})
+        }
+        else{
+            return res.status(404).json({error:"courseVideos not found"})
+        }
+        
+    }catch(err){
+        console.log(err)
+    }
+}
+

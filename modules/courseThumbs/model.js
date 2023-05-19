@@ -29,6 +29,10 @@ const courseThumbSchema = new Schema({
         type: String,
         required: true,
     },
+    course_teacher_name:{
+        type: String,
+        required: false,
+    },
     course_student_inrolled: {
         type: [String],
         required: false,

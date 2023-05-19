@@ -18,9 +18,25 @@ export const deleteTeacherAccount =  (query, callback) => {
     TeacherAccount.deleteOne(query,callback)
 }
 
-export const getTeacherAccount =  async(query) => {
+export const getOneTeacherAccount =  async(query) => {
     let queryTeacher=await TeacherAccount.findOne(query)
     return queryTeacher
+}
+
+export const getTeacherAccount =  async(query,limit) => {
+
+    try {
+        let count = await TeacherAccount.countDocuments(query);
+        let result = await TeacherAccount.find(query, {
+            _id: false,
+            teacher_password: false,
+        })
+            .limit(limit)
+        return { result, count };
+    } catch {
+        return { result: [], count: 0 };
+    }
+    
 }
 
 
