@@ -10,8 +10,10 @@ export const createEnrolledStudentAwait = async (query) => {
     return _session
 }
 
-export const updateEnrolledStudent =  (query,enrolledStudent_data, callback) => {
-    EnrolledStudent.updateOne(query,enrolledStudent_data,callback)   
+export const updateEnrolledStudent = async (query,enrolledStudent_data) => {
+    const result = await EnrolledStudent.updateOne(query, enrolledStudent_data);
+    return result;
+
 }
 
 export const deleteEnrolledStudent =  (query, callback) => {

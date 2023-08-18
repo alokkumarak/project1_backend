@@ -10,8 +10,10 @@ export const createCourseThumbnailAwait = async (query) => {
     return _session
 }
 
-export const updateCourseThumbnail =  (query,course_data, callback) => {
-    CourseThumbnail.updateOne(query,course_data,callback)   
+export const updateCourseThumbnail = async (query,course_data) => {
+    
+    const result = await CourseThumbnail.updateOne(query, course_data);
+    return result;
 }
 
 export const deleteCourseThumbnail =  (query, callback) => {
