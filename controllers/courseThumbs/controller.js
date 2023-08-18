@@ -79,7 +79,7 @@ export const getCourseThumbnailsByIds = async (req, res) => {
 
 
 export const getCourseThumbnailPagination = async (req, res) => {
-  const { currentPage, limit,search } = req.query;
+  const { currentPage, limit, search, filter } = req.query;
   const query = {};
 
   if(search){
@@ -87,6 +87,9 @@ export const getCourseThumbnailPagination = async (req, res) => {
       { course_title: { $regex: search, $options: "i" } },
       { course_description: { $regex: search, $options: "i" } },
     ];
+  }
+  if(filter && filter !== 'all'){
+    query.course_type = filter
   }
 
   const resData = await getCourseThumbnailSortedPagination(
