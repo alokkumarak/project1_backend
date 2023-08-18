@@ -1,7 +1,7 @@
 
 import { Router } from 'express';
 import cors from 'cors';
-import { courseThumbUpload, getCourseByTeacherId, getCourseThumbnailPagination, getCourseThumbnailsByIds, getOneCourseDetail } from '../controllers/courseThumbs/controller.js';
+import { addCourseReviewRating, courseThumbUpload, getCourseByTeacherId, getCourseThumbnailPagination, getCourseThumbnailsByIds, getOneCourseDetail } from '../controllers/courseThumbs/controller.js';
 import { courseVideoUpload,getOneCourseVideos } from '../controllers/courseVideos/controller.js';
 import { getStudentEnrolledCourses, enrollStudent, studentEnrolledStatus } from '../controllers/enrolledStudents/controller.js';
 const v2=Router()
@@ -18,6 +18,7 @@ v2.post('/enrollOneStudent',enrollStudent)
 v2.get('/getStudentEnrolledCourses',getStudentEnrolledCourses)
 v2.get('/getCourseThumbnailsByIds',getCourseThumbnailsByIds)
 v2.get('/studentEnrolledStatus',studentEnrolledStatus)
+v2.post('/addCourseReviewRating',addCourseReviewRating)
 
 
 export default v2

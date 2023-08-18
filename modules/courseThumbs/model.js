@@ -1,5 +1,30 @@
 import { Schema,model } from "mongoose";
 
+
+const reviewRatingSchema = new Schema({
+    student_id:{
+        type:String,
+        required:true
+    },
+    student_name:{
+        type:String,
+        required:true
+    },
+    student_review:{
+        type:String,
+        required:true
+    },
+    student_rating:{
+        type:Number,
+        required:true
+    },
+    created_at:{
+        type:Date,
+        default:Date.now()
+    }
+})
+
+
 const courseThumbSchema = new Schema({
     course_id: {
         type: String,
@@ -35,6 +60,11 @@ const courseThumbSchema = new Schema({
     },
     course_student_inrolled: {
         type: [String],
+        required: false,
+        default:[]
+    },
+    course_review_rating: {
+        type:[reviewRatingSchema],
         required: false,
         default:[]
     },

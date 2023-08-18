@@ -5,6 +5,7 @@ import {
   getCourseThumbnailSortedPagination,
   getCourseThumbnailById,
   getCourseThumbnail,
+  addCourseReviewRatings,
 } from "../../modules/courseThumbs/service.js";
 import { getTeacherAccount } from "../../modules/teacherAccount/service.js";
 
@@ -121,3 +122,44 @@ export const getOneCourseDetail = async (req, res) => {
     }
   } catch (error) {}
 };
+
+
+// add course review and rating
+export const addCourseReviewRating = async (req, res) => {
+  let { course_id, student_id, student_name, student_review, student_rating } =
+    req.body;
+  let query = { course_id: course_id };
+  let course_data = await getCourseThumbnailById(query);
+  if(!course_data){
+    return res.status(404).json({
+      error: "course not found",
+    });
+  }
+
+  let course_review_rating = course_data.course_review_rating;
+  let review_rating = {
+    student_id: student_id,
+    student_name: student_name,
+    student_review: student_review,
+    student_rating: student_rating,
+    created_at: Date.now(),
+  };
+  course_review_rating.push(review_rating);
+  let course_data_update = {
+    course_review_rating: course_review_rating,
+  };
+  try {
+    const result = await addCourseReviewRatings(query, course_data_update);
+    if (result) {
+      return res.status(200).json({
+        message: "review and rating added successfully",
+      });
+    } else {
+      return res.status(404).json({
+        error: "course not found",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
