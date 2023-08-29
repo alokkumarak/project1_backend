@@ -98,12 +98,15 @@ export const getCourseThumbnailPagination = async (req, res) => {
     limit,
     currentPage
   );
+  
+  const resultssss=resData.result.reverse()
+
   return res.status(200).json({
     limit: limit,
     skip: (currentPage - 1) * limit,
     length: resData.result.length,
     count: resData.count,
-    data: resData.result,
+    data: resultssss,
   });
 };
 

@@ -1,6 +1,5 @@
 import { Schema,model } from "mongoose";
 
-
 const reviewRatingSchema = new Schema({
     student_id:{
         type:String,
