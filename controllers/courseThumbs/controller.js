@@ -17,7 +17,7 @@ export const courseThumbUpload = async (req, res) => {
     course_type,
     course_price,
     course_teacher_id,
-    course_teacher_name
+    course_teacher_name,
   } = req.body;
   if (!course_title || !course_thumbnail || !course_teacher_id) {
     return res.status(422).json({ error: "Please add all the fields" });
@@ -32,7 +32,7 @@ export const courseThumbUpload = async (req, res) => {
       course_price,
       course_type,
       course_teacher_id,
-      course_teacher_name
+      course_teacher_name,
     });
     res.status(200).json({
       message: "yahaaa!! New Course Created Successfully",
@@ -68,7 +68,9 @@ export const getCourseThumbnailsByIds = async (req, res) => {
   }
   const { course_ids } = req.query;
   try {
-    const courseThumbnails = await getCourseThumbnail({ course_id: { $in: course_ids } });
+    const courseThumbnails = await getCourseThumbnail({
+      course_id: { $in: course_ids },
+    });
     if (!courseThumbnails) {
       return res.status(404).json({ error: "course thumbnails not found" });
     }
@@ -78,19 +80,18 @@ export const getCourseThumbnailsByIds = async (req, res) => {
   }
 };
 
-
 export const getCourseThumbnailPagination = async (req, res) => {
   const { currentPage, limit, search, filter } = req.query;
   const query = {};
 
-  if(search){
+  if (search) {
     query.$or = [
       { course_title: { $regex: search, $options: "i" } },
       { course_description: { $regex: search, $options: "i" } },
     ];
   }
-  if(filter && filter !== 'all'){
-    query.course_type = filter
+  if (filter && filter !== "all") {
+    query.course_type = filter;
   }
 
   const resData = await getCourseThumbnailSortedPagination(
@@ -98,8 +99,8 @@ export const getCourseThumbnailPagination = async (req, res) => {
     limit,
     currentPage
   );
-  
-  const resultssss=resData.result.reverse()
+
+  const resultssss = resData.result.reverse();
 
   return res.status(200).json({
     limit: limit,
@@ -126,14 +127,23 @@ export const getOneCourseDetail = async (req, res) => {
   } catch (error) {}
 };
 
-
 // add course review and rating
 export const addCourseReviewRating = async (req, res) => {
   let { course_id, student_id, student_name, student_review, student_rating } =
     req.body;
+
+  if (
+    !course_id ||
+    !student_id ||
+    !student_name ||
+    !student_review ||
+    !student_rating
+  ) {
+    return res.status(422).json({ error: "Please add all the fields" });
+  }
   let query = { course_id: course_id };
   let course_data = await getCourseThumbnailById(query);
-  if(!course_data){
+  if (!course_data) {
     return res.status(404).json({
       error: "course not found",
     });
@@ -165,4 +175,4 @@ export const addCourseReviewRating = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

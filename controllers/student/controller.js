@@ -27,7 +27,7 @@ export const studentSignup = async (req, res) => {
 
     const student = await getStudentAccount({ student_email });
     if (student) {
-      return res.status(422).json({ error: "Student already exists" });
+      return res.status(422).json({ error: "Student already exists with this email" });
     }
     const student_id = uuidv4();
     bcrypt.hash(student_password, 15).then((hashedpassword) => {

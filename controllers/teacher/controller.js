@@ -26,8 +26,8 @@ export const teacherSignup = async (req, res) => {
     //     return res.status(422).json({error:"Password and confirm password do not match"})
     // }
     const teacher = await getTeacherAccount({ teacher_email });
-    if (teacher) {
-      return res.status(422).json({ error: "Teacher already exists" });
+    if (teacher.result.length > 0) {
+      return res.status(422).json({ error: "Teacher already exists with this email" });
     }
     const teacher_id = uuidv4();
 

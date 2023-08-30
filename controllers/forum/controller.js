@@ -4,11 +4,18 @@ import { addForumAnswers, createForumAwait, getForum, getForumByQuery } from "..
 
 export const postforumQuestion = async (req, res) => {
     let { forum_question, asked_by_id, asked_by_name } = req.body;
+
+    if (!forum_question || !asked_by_id || !asked_by_name) {
+        return res.status(422).json({
+            error: "Please add all the fields",
+        });
+    }
+
     let query = { forum_question: forum_question };
     let forum_data = await getForumByQuery(query);
     if (forum_data) {
         return res.status(404).json({
-            error: "forum question already exist",
+            error: "This question already exist",
         });
     }
    
@@ -25,11 +32,11 @@ export const postforumQuestion = async (req, res) => {
         const result = await createForumAwait(forum_data_create);
         if (result) {
             return res.status(200).json({
-                message: "forum question added successfully",
+                message: "Your question added successfully",
             });
         } else {
             return res.status(404).json({
-                error: "forum question not added",
+                error: "Question not added",
             });
         }
     } catch (error) {
@@ -40,11 +47,18 @@ export const postforumQuestion = async (req, res) => {
 
 export const postforumAnswer = async (req, res) => {
     let { forum_id, answered_by_id, answered_by_name, answer } = req.body;
+
+    if (!forum_id || !answered_by_id || !answered_by_name || !answer) {
+        return res.status(422).json({
+            error: "Please add all the fields",
+        });
+    }
+
     let query = { forum_id: forum_id };
     let forum_data = await getForumByQuery(query);
     if (!forum_data) {
         return res.status(404).json({
-            error: "forum question not found",
+            error: "This question not found",
         });
     }
     let forum_answers = forum_data.forum_answers;
@@ -62,11 +76,11 @@ export const postforumAnswer = async (req, res) => {
         const result = await addForumAnswers(query, forum_data_update);
         if (result) {
             return res.status(200).json({
-                message: "forum answer added successfully",
+                message: "Your answer added successfully",
             });
         } else {
             return res.status(404).json({
-                error: "forum answer not added",
+                error: "Answer not added",
             });
         }
     } catch (error) {
@@ -87,12 +101,25 @@ export const getAllForums = async (req, res) => {
 
 export const getForumBySearch = async (req, res) => {
     const { search } = req.query;
+    const query={}
+
+    if (search) {
+        query.forum_question = { $regex: search, $options: "i" };
+    }
+    
     try {
-        const resData = await getForum({ forum_question: { $regex: search, $options: "i" } });
+        const resData = await getForum(query);
+        if(resData.length===0){
+            return res.status(404).json({
+                error: "No question found",
+            });
+        }
         return res.status(200).json({
-            data: resData,
+            data: resData.reverse(),
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.log(error);
     }
+
 }
